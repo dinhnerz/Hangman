@@ -1,0 +1,90 @@
+<!-- dinhnluong@gmail.com
+	last updated : 08.25.2018 -->
+
+	<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<body>
+			<div id="main-outer">
+				<h1 align='center'>LinkedIn Coding Challenge</h1>
+				<!-- Main DIV -->
+				<div class="well message col-md-8 col-md-offset-2">
+					<!-- Main Left Column -->
+					<div class="col-md-8">
+						<!-- Title DIV -->
+						<div class="Title col-md-12" align="center"><h2><b>Hangman 2018</b></h2></div>
+						<div class="col-md-12" align="center" id="message"></div>
+						<!-- Hangman IMG DIV -->
+						<div class="IMG col-md-12" align="center" id="imgHangman"><img src="images/Hangman0.png" style="width:200px;height:200px;"></div>
+						<!-- Word Guessed -->
+						<div class="col-md-12" align="center" id="word"><br>Hangman by Dinh Luong<br><br></div>
+						<!-- Guess Left -->
+						<div class="col-md-4" align="left" id="guess">Guess Left: 06</div>
+						<!-- Character Guessed -->
+						<div class="col-md-8" align="left" id="characterGuessed">Guessed: </div>
+
+						<div class="col-md-12" align="left">
+							<br>
+							<div id="API"></div>
+						</div>
+					</div> <!-- Main Left Column ends -->
+					<!-- Main Right Column -->
+					<div class="col-md-4">
+						<div align="center""><font size="5"><b>Leader Board</b></font></div>
+						<table>
+							<thead>
+								<tr>
+									<th style="width: 25px"><div id="rank">#</div></th>
+									<th style="width: 125px"><div id="name">Name</div></th>
+									<th style="width: 75px"><div id="score">Score</div></th>					
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>Dinh</td>
+									<td>4300</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Dinh</td>
+									<td>3800</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>Dinh</td>
+									<td>3700</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>Dinh</td>
+									<td>3200</td>
+								</tr>
+							</thead>
+							<tbody id="leaderBoard">
+							</tbody>
+						</table>										
+						</div>
+						<div class="col-md-12">
+						<!-- Difficulity DIV Size 9 -->
+						<div class="col-md-5" align="center">
+							<b>Difficulty Level: </b>
+							<form>
+								<label class="radio-inline"><input type="radio" id="diffEasy" name="diffLevel" checked>Easy</label>
+								<label class="radio-inline"><input type="radio" id="diffMedium" name="diffLevel">Medium</label>
+								<label class="radio-inline"><input type="radio" id="diffHard" name="diffLevel">Hard</label>
+							</form>
+						</div>
+						<div class="col-md-4">
+							 Name: <input type="text" name="username" id="userName">
+						</div>
+						<!-- Start DIV Size 3 -->
+						<div class="col-md-3" align="center">
+							<button type="button" class="btn btn-success" id="Start">New Game</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				<script type="text/javascript" src="js/hangman.js"></script>
+			</body>
+			</html>
