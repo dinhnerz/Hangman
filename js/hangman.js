@@ -1,43 +1,55 @@
 // dinhnluong@gmail.com 08.25.2018
 
-var result;
-var wrongGuess = [];
+// set Difficulty variables
 var diffLevel;
 var startVar;
 var startLength;
 var startMaxLength;
-var gameStatus;
-var userName;
-var score;
 
-$(document).ready(function() { 
+var userName = "Name";
+var score = 0;
+var level = 1;
+var resultArray;
+var blankWordArray = [];
+var maxGuesses = 6;
+var wordHTML = "";
+const chars = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
+$(document).ready(function() {
+
+	appendButtons();
 
 	$("#Start").click(function(){
+			userName = document.getElementById('userName').value;
+			document.getElementById("userName").setAttribute("disabled", "disabled");
+		   	if (document.getElementById('diffEasy').checked) {
+		   		diffLevel = 1;
+		   		startLength = 3;
+		   		startMaxLength = 5;
+		   		startVar = 3500;
+		   		document.getElementById("diffMedium").disabled = true;
+		   		document.getElementById("diffHard").disabled = true;
+		   	} else if (document.getElementById('diffMedium').checked) {
+		   		diffLevel = 3;
+		   		startLength = 3;
+		   		startMaxLength = 7;
+		   		startVar = 2500;
+		   		document.getElementById("diffEasy").disabled = true;
+		   		document.getElementById("diffHard").disabled = true;
+		   	} else if (document.getElementById('diffHard').checked) {
+		   		diffLevel = 6;
+		   		startLength = 6;
+		   		startMaxLength = 9;
+		   		startVar = 3500;
+		   		document.getElementById("diffEasy").disabled = true;
+		   		document.getElementById("diffMedium").disabled = true;
+		   	} 
 
-		  if ($('#userName').val() == '') {
-		      alert('Name can not be blank');
-		   } else {
-		   	userName = document.getElementById('userName').value;
-		   	//check difficulty level
-			if (document.getElementById('diffEasy').checked) {
-				console.log("Easy is checked");
-				diffLevel = 1;
-				startLength = 3;
-				startVar = 15000;
-			} else if (document.getElementById('diffMedium').checked) {
-				console.log("Medium is checked");
-				diffLevel = 4;
-				startVar = 7000;
-			} else if (document.getElementById('diffHard').checked) {
-				console.log("Hard is checked");
-				diffLevel = 7;
-				startVar = 1700;
-			} 
-
-			console.log('Username is: ' + userName);
+		   	document.getElementById("Start").setAttribute("disabled", "disabled");
+		   	console.log('Username is: ' + userName);
 			// get LinkedIn API
-		   	getWord();
-		   }		
+
+			getWord();	
 	});
 
 	function getWord() {
@@ -50,34 +62,26 @@ $(document).ready(function() {
 			type: "GET",
 			dataType: "text",
 			headers: {  'Access-Control-Allow-Origin': 'http://app.linkedin-reach.io' },
-			url: "http://app.linkedin-reach.io/words?difficulty=" + diffLevel + "&minLength=3&maxLength=5&start=" + start + "&count=1",
+			url: "http://app.linkedin-reach.io/words?difficulty=" + diffLevel + "&minLength=" + startLength + "&maxLength=" + startMaxLength + "&start=" + start + "&count=1",
 			success: function(data){
-				console.log(data);
-				result = data.toString();
-
 				if (data == "") {
 					console.log("There is no result");
 					getWord();
 				}
 
-				console.log("Result Length is : " + result.length);
 				jQuery('#API').html('');
-				$("#API").append(result);
-				startGame();
+				$("#API").append(data);
+				startGame(data);
 			}
 		});
 	}
 
-	function startGame() {
+	function startGame(result) {
 
 		console.log("In start game, word to guess is : " + result);
-
-		var guess = 0;
-		var resultArray = result.split('');
-		var wrongGuessArray = [];
-
-		// creat underscore array to use to compare with result array
-		var blankWordArray = [];
+		jQuery('#message').html("<b>Choose a character</b>");
+		
+		resultArray = result.split('');
 
 		for (var i = 0; i < resultArray.length; i++) {
 			blankWordArray[i] = "_";
@@ -87,111 +91,161 @@ $(document).ready(function() {
 
 		// Write code to display word
 		jQuery('#word').html('');
-		var wordHTML = "";
 
 		for (var i = 0; i < resultArray.length; i++) {
 			wordHTML += blankWordArray[i] + " ";
 		}
+
+		console.log(blankWordArray);
 		jQuery('#word').html("<h2><b>" + wordHTML + "</b></h2>");
 
-		// Listen for a key down event
-		document.addEventListener("keydown", function(e){
-			
+		listenForChars();
+		//listenForKeys();
 
+	}
 
-			// Keys must be a-z and not any other key
-			if(e.key.toLowerCase() >= 'a' && e.key.toLowerCase() <= 'z' && e.key.toLowerCase().length === 1) {
-				if (gameStatus == "win") {
-					// next level
-					$("#Start").html('Next Level');
-				} else {
-				console.log("Keydown is good");
-				const resultChar = resultArray.filter(resultArray => resultArray === e.key.toLowerCase());
+	//create event listener for all characters
+	function listenForChars() {
+		for (let i = 0; i < chars.length; i++) {
+		    $("#Char_"+chars[i]).click(function() {
+		    	keyDown(chars[i]);
+		     });
+		}
+	}
 
-				console.log("Result Char before If Statement :" + resultChar);
-
-				// if not in array statement
-				if (resultChar == "") {
-					console.log("Character does not exist in words matching array: " + e.key);
-					// jQuery('#message').html('');
-					// $("#message").append("Wrong guess! Character : " + e.key);
-					const wrongGuessResult = wrongGuess.filter(wrongGuess => wrongGuess === e.key.toLowerCase());
-
-					if (wrongGuessResult == "" ) {
-						// keep track of guesses
-						guess++;
-
-						if (guess >= 6) {
-							// write code for game over
-				    		jQuery('#guess').html("Guest Left: 00");
-				    		console.log("GAME OVER!");
-				    		jQuery('#imgHangman').html("");
-				    		jQuery('#imgHangman').html("<img src=\"images/Hangman6.png\" style=\"width:200px;height:200px;\">");
-				    		jQuery('#message').html('');
-				    		$("#message").append("No more guess, Game OVER!");
-
-			    		} else {
-
-			    			wrongGuess.push(e.key);
-							console.log(wrongGuess);
-
-							jQuery('#guess').html("Guest Left: 0" + (6 - guess));
-							jQuery('#imgHangman').html("");
-							jQuery('#imgHangman').html("<img src=\"images/Hangman" + guess +".png\" style=\"width:200px;height:200px;\">");
-						
-							console.log(guess);
-							jQuery('#message').html('');
-							$("#message").append("Wrong guess! Character already guessed : " + e.key);
-							wrongGuessArray.push(e.key.toUpperCase());
-							jQuery('#characterGuessed').html('');
-
-							$("#characterGuessed").append("Guessed: <b>" + wrongGuessArray + "</b>");
-
-						}		
-			    	} else if (guess < 6) {
-			    		// do not do anything because guess already guessed
-			    		jQuery('#message').html('');
-						$("#message").append("Guess already been guessed: " + e.key);
-		    			// write alert message to tell user guess already used
-		    			console.log("Wrong Guess already in array : " + e.key + ". " + wrongGuess);
-		    		}		
-		    	} else if (guess < 6) {
-		    		// write code for good guess
-		    		console.log("Found character in matching word array " + resultChar);
-		    		// filter array for correct character guess
-		    		var index = [];
+	// key down, now do something with it
+	function keyDown(key) {
+		document.getElementById("Char_" + key).setAttribute("disabled", "disabled");
+		console.log(resultArray.indexOf(key.toLowerCase()));
+		if (resultArray.indexOf(key.toLowerCase()) >= 0) {
+			console.log("Char exist in words Array :" + key);
+					document.getElementById("Char_" + key).setAttribute("class", "btn btn-success btn-circle col-md-3");
+					jQuery('#message').html('');
+					$("#message").append("<b>" + key + " is correct!</b>");
+					var index = [];
 
 		    		for (var i = 0; i < resultArray.length; i++) {
-		    			if (resultArray[i] == resultChar[0]) {
-		    				blankWordArray[i] = resultChar[0];
-		    				console.log("In If/For statement, result Char is :" + resultChar);
+		    			if (resultArray[i] == key.toLowerCase()) {
+		    				blankWordArray[i] = key.toLowerCase();
+		    				wordHTML += blankWordArray[i] + " ";
+		    				console.log("In If/For statement, result Char is :" + key);
 		    				index.push(i);
 		    			}
 		    		}
 
-		    		console.log("Characters in array with : " + resultChar + ". Indexes : " + index);
+		    		console.log("Characters in array with : " + key + ". Indexes : " + index);
 
 					// append correct guess to HTML
 					jQuery('#word').html('');
-					var wordHTML = "";
+					jQuery('#word').html("<h2><b>" + blankWordArray.join(" ") + "</b></h2>");
 
-					for (var i = 0; i < resultArray.length; i++) {
-						wordHTML += blankWordArray[i] + " ";
-					}
+					console.log(blankWordArray);
 
-					jQuery('#word').html("<h2><b>" + wordHTML + "</b></h2>");
-
-					if(JSON.stringify(resultArray)==JSON.stringify(blankWordArray)){
+					if (resultArray.join() == blankWordArray.join()) {
 						jQuery('#message').html('');
-						jQuery('#message').html("<h3><b>YOU WIN!!</b></h3>");
-						gameStatus = "win";
+						jQuery('#message').html("<b>YOU WIN!!</b>");
+						
+						document.getElementById("Start").removeAttribute("disabled");
 						$("#Start").html('Next Level');
+						jQuery('#Start').unbind('click');
+						continueGame("win");
 					}
+		} else {
+			maxGuesses --;
+			appendGuess(maxGuesses);
+			appendHangmanImg(maxGuesses);
 
-				}
-				}
+			console.log(maxGuesses);
+			jQuery('#message').html('');
+			$("#message").append("<b>" + key + " is wrong, try again!</b>");
+			console.log("Key does not exist in words array");
+		}
+
+		if (maxGuesses == 0) {
+			alert("Game Over!");
+			for (let i = 0; i < chars.length; i++) {
+			    jQuery("#Char_"+chars[i]).unbind('click');
 			}
-		});
-
+			document.getElementById("Start").removeAttribute("disabled");
+			$("#Start").html('New Game');
+			jQuery('#Start').unbind('click');
+			continueGame("lost");
+		}
 	}
+
+	function continueGame(gameStatus) {
+		console.log(gameStatus);
+		if (gameStatus == "lost") {
+			// write code for game lost
+			keepScore(userName, score);
+			$("#Start").click(function() {
+		    	window.location.reload();
+		     });
+			// then use window reload to refresh game
+			//window.location.reload();
+		} else if (gameStatus == "win") {
+			score += 100;
+			console.log(score);
+			resultArray = undefined;
+			blankWordArray = [];
+			maxGuesses = 6;
+			wordHTML = "";
+			level ++;
+			appendGuess(maxGuesses);
+			appendHangmanImg("Start");
+			appendScore(score);
+			getWord();
+			appendButtons();
+		}
+		
+	}
+
+	function keepScore(userName, score) {
+
+		var names = [{"Name": "Dinh", "Rank": "1", "Score": "3500"},
+					 {"Name": "Dinh", "Rank": "2", "Score": "2500"},
+					 {"Name": "Dinh", "Rank": "3", "Score": "2000"}];
+
+		localStorage.setItem("names", JSON.stringify(names));
+
+		var storedNames = JSON.parse(localStorage.getItem("names"));
+
+		console.log(storedNames);
+
+		// var leaderBoardRank = JSON.parse(localStorage["userRank"]);
+		// var leaderBoardScore = JSON.parse(localStorage["userScore"]);
+		// var leaderBoardName = JSON.parse(localStorage["userName"]);
+
+		// console.log(leaderBoardRank);
+		// console.log(leaderBoardName);
+		// console.log(leaderBoardScore);
+
+		// if (leaderBoardRank == null && score > 0) {
+
+		// 	userRank = [1,2,3,4,5,6,7,8,9,10];
+		// 	userScore = [score,0,0,0,0,0,0,0,0,0];
+		// 	userName = [userName, "Name", "Name", "Name", "Name", "Name", "Name", "Name", "Name", "Name"];
+
+		// 	localStorage.setItem('userRank', JSON.stringify(userRank));
+		// 	localStorage.setItem('userScore', JSON.stringify(userScore));
+		// 	localStorage.setItem('userName', JSON.stringify(userName));
+
+		// } else if (score > 0) {
+		// 	for (var i = 0; i < leaderBoardScore.length; i++) {
+		// 		if (leaderBoardScore[i] > score && leaderBoardScore[i+1] < score) {
+		// 			console.log("Update for this position: " + (i+1));
+		// 			leaderBoardScore[i+1] = score;
+		// 			leaderBoardName[i+1] = userName;
+		// 		} else if (leaderBoardScore[0] < score) {
+		// 			leaderBoardScore[0] = score;
+		// 			leaderBoardName[0] = userName;
+		// 		} 
+		// 		localStorage.setItem('userRank', JSON.stringify(leaderBoardRank));
+		// 		localStorage.setItem('userScore', JSON.stringify(leaderBoardScore));
+		// 		localStorage.setItem('userName', JSON.stringify(leaderBoardName));
+		// 	}
+		// }
+		
+	}
+
 });
