@@ -4,7 +4,7 @@ Hangman is word guessing game written for LinkedIn Reach Program's coding challe
 
 ## Motivation
 
-Game is inspired by the original Hangman game (link). passion for coding, design, reach program, challenge
+Game is inspired by the original [Hangman game](https://en.wikipedia.org/wiki/Hangman_(game)). passion for coding, design, reach program, challenge
 
 ## Docs
 
@@ -27,13 +27,17 @@ To be used with Chrome browser:
 
 ## Extensions
 
+```
+- Difficulty Levels (easy, medium, hard)
+- Leader Board (top 10 scores)
+- Hint (disable 8 Characters for easy mode, 4 Characters for medium mode, not available for hard mode)
+```
+
 ## Resources
 
-* API
-* WIKI HANGMAN
-* BOOTSTRAP
-* JQuery
-
-
-
-
+```
+- [LinkedIn Words API](http://app.linkedin-reach.io/words)
+- [Hangman game](https://en.wikipedia.org/wiki/Hangman_(game))
+- [Bootstrap](https://getbootstrap.com/)
+- [jQuery](https://jquery.com/)
+```
