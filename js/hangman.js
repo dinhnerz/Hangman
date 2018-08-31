@@ -21,7 +21,14 @@ $(document).ready(function() {
 	pullLeaderBoard();
 	appendButtons();
 
+	$('#userName').on('keyup', function(e) {
+	    if (e.keyCode === 13) {
+	        $('#Start').click();
+	    }
+	});
+
 	$("#Start").click(function(){
+			jQuery("#guessWord").unbind('keyup');
 			document.getElementById('hint').disabled = false;
 			userName = document.getElementById('userName').value;
 			if (userName == "") {
@@ -96,6 +103,21 @@ $(document).ready(function() {
 
 		listenForChars();
 		listenForHintClick();
+
+		$('#guessWord').on('keyup', function(e) {
+		    if (e.keyCode === 13) {
+		        if (result == document.getElementById('guessWord').value.toLowerCase()) {
+		        	jQuery('#message').html('');
+					jQuery('#message').html("<b>YOU WIN!!</b>");
+					continueGame("win");
+		        } else {
+		        	jQuery('#message').html('');
+					$("#message").append("<b>" + document.getElementById('guessWord').value.toLowerCase() + " is not correct, try again!</b>");
+					$('#guessWord').val('');
+					wrongGuess();
+		        }
+		    }
+		});
 	}
 
 	//create event listener for all characters
@@ -136,13 +158,16 @@ $(document).ready(function() {
 						continueGame("win");
 					}
 		} else {
+			jQuery('#message').html('');
+			$("#message").append("<b>" + key + " is wrong, try again!</b>");
+			wrongGuess();
+		}
+	}
+
+	function wrongGuess(key) {
 			maxGuesses--;
 			appendGuess(maxGuesses);
 			appendHangmanImg(maxGuesses);
-
-			jQuery('#message').html('');
-			$("#message").append("<b>" + key + " is wrong, try again!</b>");
-		}
 
 		if (maxGuesses == 0) {
 			alert("Game Over!");
@@ -156,10 +181,15 @@ $(document).ready(function() {
 	}
 
 	function continueGame(gameStatus) {
+		$('#guessWord').val('');
+		document.getElementById("hint").setAttribute("disabled", "disabled")
+		jQuery("#guessWord").unbind('keyup');
 		if (gameStatus == "lost" && score > 0) {
 			keepScore(userName, score);
 		} else if (gameStatus == "win") {
-			document.getElementById('hint').disabled = false;
+			if (!document.getElementById('diffHard').checked) {
+				document.getElementById('hint').disabled = false;
+			}
 			score += 100;
 			setGameSettings();
 		}		
