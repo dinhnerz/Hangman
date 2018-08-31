@@ -6,9 +6,8 @@ var startVar;
 var startLength;
 var startMaxLength;
 
-var userName = "Name";
-var score = 0;
-var level = 1;
+var userName;
+var score;
 var resultArray;
 var blankWordArray = [];
 var maxGuesses = 6;
@@ -22,7 +21,10 @@ $(document).ready(function() {
 
 	$("#Start").click(function(){
 			userName = document.getElementById('userName').value;
-			document.getElementById("userName").setAttribute("disabled", "disabled");
+			if (userName == "") {
+				userName = "Name";
+			}
+			//document.getElementById("userName").setAttribute("disabled", "disabled");
 		   	if (document.getElementById('diffEasy').checked) {
 		   		diffLevel = 1;
 		   		startLength = 3;
@@ -46,12 +48,11 @@ $(document).ready(function() {
 		   		document.getElementById("diffMedium").disabled = true;
 		   	} 
 
-		   	document.getElementById("Start").setAttribute("disabled", "disabled");
 		   	console.log('Username is: ' + userName);
 			// get LinkedIn API
-
-
-			getWord();
+			score = 0;
+			setGameSettings();
+			//getWord();
 	});
 
 	function getWord() {
@@ -99,7 +100,8 @@ $(document).ready(function() {
 		}
 
 		console.log(blankWordArray);
-		jQuery('#word').html("<h2><b>" + wordHTML + "</b></h2>");
+		
+		jQuery('#word').html("<font size=\"5px\"><b>" + wordHTML + "</b></font>");
 
 		listenForChars();
 
@@ -138,17 +140,13 @@ $(document).ready(function() {
 
 					// append correct guess to HTML
 					jQuery('#word').html('');
-					jQuery('#word').html("<h2><b>" + blankWordArray.join(" ") + "</b></h2>");
+					jQuery('#word').html("<font size=\"5px\"><b>" + blankWordArray.join(" ") + "</b></font>");
 
 					console.log(blankWordArray);
 
 					if (resultArray.join() == blankWordArray.join()) {
 						jQuery('#message').html('');
 						jQuery('#message').html("<b>YOU WIN!!</b>");
-						
-						document.getElementById("Start").removeAttribute("disabled");
-						$("#Start").html('Next Level');
-						jQuery('#Start').unbind('click');
 						continueGame("win");
 					}
 		} else {
@@ -167,58 +165,52 @@ $(document).ready(function() {
 			for (let i = 0; i < chars.length; i++) {
 			    jQuery("#Char_"+chars[i]).unbind('click');
 			}
-			document.getElementById("Start").removeAttribute("disabled");
-			$("#Start").html('New Game');
-			jQuery('#Start').unbind('click');
+
 			continueGame("lost");
 		}
 	}
 
 	function continueGame(gameStatus) {
 		console.log(gameStatus);
-		if (gameStatus == "lost") {
-			// write code for game lost
+		if (gameStatus == "lost" && score > 0) {
 			keepScore(userName, score);
-			$("#Start").click(function() {
-		    	window.location.reload();
-		     });
-			// then use window reload to refresh game
-			//window.location.reload();
 		} else if (gameStatus == "win") {
 			score += 100;
-			console.log(score);
-			resultArray = undefined;
-			blankWordArray = [];
-			maxGuesses = 6;
-			wordHTML = "";
-			level ++;
-			appendGuess(maxGuesses);
-			appendHangmanImg("Start");
-			appendScore(score);
-			getWord();
-			appendButtons();
-		}
-		
+			setGameSettings();
+		}		
+	}
+
+	function setGameSettings() {
+		resultArray = undefined;
+		blankWordArray = [];
+		maxGuesses = 6;
+		wordHTML = "";
+		appendGuess(maxGuesses);
+		appendHangmanImg("Start");
+		appendScore(score);
+		getWord();
+		appendButtons();
 	}
 
 	function keepScore(userName, score) {
 
-		// var names = [{"Name": "Dinh", "Score": 200},
-		// 			 {"Name": "Dinh", "Score": 100}];
+		var storedNames = JSON.parse(localStorage.getItem("topScore"));
 
-		// localStorage.setItem("names", JSON.stringify(names));
+		if (storedNames == null && score > 0) {
+			var names = [{"Name": userName, "Score": score}];
+			localStorage.setItem("topScore", JSON.stringify(names));
+			var storedNames = JSON.parse(localStorage.getItem("topScore"));
 
-		var storedNames = JSON.parse(localStorage.getItem("names"));
-
-		console.log(storedNames);
-
-		storedNames.push({"Name": userName, "Score": score});
+			console.log("storedNames");
+		} else {
+			storedNames.push({"Name": userName, "Score": score});
+		}
 
 		console.log(storedNames);
 
 		var top10 = storedNames.sort(function(a, b) { return a.Score < b.Score ? 1 : -1; }).slice(0, 10);
 
-		localStorage.setItem("names", JSON.stringify(top10));
+		localStorage.setItem("topScore", JSON.stringify(top10));
 
 		appendLeaderBoard(top10);
 
@@ -226,24 +218,9 @@ $(document).ready(function() {
 	}
 
 	function pullLeaderBoard() {
-		var storedNames = JSON.parse(localStorage.getItem("names"));
+		var storedNames = JSON.parse(localStorage.getItem("topScore"));
 		var top10 = storedNames.sort(function(a, b) { return a.Score < b.Score ? 1 : -1; }).slice(0, 10);
 		appendLeaderBoard(top10);
-	}
-
-	function appendLeaderBoard(top10) {
-
-		var leaderBoard = "";
-
-		for (var i = 0; i < top10.length; i++) {
-			leaderBoard += "<tr><td align=\"left\">" + (i+1) + "</td>";
-			leaderBoard += "<td align=\"left\">" + top10[i].Name + "</td>";
-			leaderBoard += "<td align=\"left\">" + top10[i].Score + "</td><tr>";
-		}
-
-		jQuery('#leaderBoard').html("");
-		jQuery('#leaderBoard').html(leaderBoard);
-
 	}
 
 });
