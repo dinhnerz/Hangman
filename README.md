@@ -36,6 +36,7 @@ Hint mode works by filtering through all 26 Characters and determines if a Chara
 - Difficulty Levels (easy, medium, hard). Difficulty levels is implemented by using API parameters; difficulty, minLength, and maxLength. Lower parameter settings for easier modes, etc.
 - Leader Board (top 10 scores). Leader board data is stored in the backend and displayed in the UI (cache parse to JSON).
 - Hint (disable 8 characters for easy mode, 4 characters for medium mode, not available for hard mode). Hint mode randomizes the characters to be disabled that are not in the word result array or already guessed.
+- Guess full words. Player has the ability to guess full word, wrong guesses are counted towards guesses total.
 - Hangman Diagram. Uses a combination of 7 images and progress as the Player guess incorrectly.
 
 ## Resources
