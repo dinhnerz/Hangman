@@ -1,5 +1,5 @@
 <!-- dinhnluong@gmail.com
-	last updated : 08.25.2018 -->
+	last updated : 08.31.2018 -->
 
 	<html>
 	<head>
@@ -7,32 +7,29 @@
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
-
 		<body>
-
-
 			<nav class="navbar-fixed-top navbar navbar-inverse">
 				<div class = "col-md-8 col-md-offset-2" align="center">
-			  <div class="container-fluid">
-			    <div class="navbar-header">
-			      <div class="navbar-Hangman">LinkedIn Coding Challenge</div>
-			    </div>
-					<div class="nav navbar-nav" align="center"><font color="white">
-						<b>Difficulty Level: </b>
-						<form>
-							<label class="radio-inline"><input type="radio" id="diffEasy" name="diffLevel" checked>Easy</label>
-							<label class="radio-inline"><input type="radio" id="diffMedium" name="diffLevel">Medium</label>
-							<label class="radio-inline"><input type="radio" id="diffHard" name="diffLevel">Hard</label>
-						</form></font>
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<div class="navbar-Hangman">LinkedIn Coding Challenge</div>
+						</div>
+						<div class="nav navbar-nav" align="center" style="padding-top: 8px;"><font color="white">
+							<b>Difficulty Level: </b>
+							<form>
+								<label class="radio-inline"><input type="radio" id="diffEasy" name="diffLevel" checked>Easy</label>
+								<label class="radio-inline"><input type="radio" id="diffMedium" name="diffLevel">Medium</label>
+								<label class="radio-inline"><input type="radio" id="diffHard" name="diffLevel">Hard</label>
+							</form></font>
+						</div>
+						<form class="navbar-form navbar-left">
+							<div class="form-group">
+								<input class="form-control" type="text" id="userName" maxlength="10" placeholder="Name">
+							</div>
+							<button type="button" class="btn btn-success " id="Start">New Game</button>
+						</form>
 					</div>
-			    <form class="navbar-form navbar-left">
-			      <div class="form-group">
-			        <input class="form-control" type="text" id="userName" maxlength="10" placeholder="Name">
-			      </div>
-			      <button type="button" class="btn btn-success " id="Start">New Game</button>
-			    </form>
-			  </div>
-			  		</div>
+				</div>
 			</nav>
 			<div id="main-outer">
 				<!-- Main DIV -->
@@ -45,7 +42,7 @@
 						<!-- Hangman IMG DIV -->
 						<div class="col-md-7" align="center">
 							<div class="col-md-12" align="center" id="imgHangman">
-							<img src="images/HangmanStart.png" style="width:200px;height:200px;">
+								<img src="images/HangmanStart.png" style="width:200px;height:200px;">
 							</div>
 							<!-- Word Guessed -->
 							<div class="col-md-12" align="center" id="word"><font size="5px"><b>Dinh Luong</b></font></div>
@@ -57,10 +54,10 @@
 						<!-- Character DIV -->
 						<div class="IMG col-md-5" align="center">
 							<div class="col-md-12" align="center" id="Characters">
-								</div>
-								<div class="col-md-12" align="center">
-									<button type="button" id="hint" class="btn btn-info ">hint</button>
-								</div>
+							</div>
+							<div class="col-md-12" align="center">
+								<button type="button" id="hint" class="btn btn-info">hint</button>
+							</div>
 						</div>
 						<div class="col-md-12" align="left">
 							<br>
@@ -68,24 +65,23 @@
 						</div>
 					</div> <!-- Main Left Column ends -->
 					<!-- Main Right Column -->
-					<div class="well col-md-4">
-						<div align="center"><font size="5" color="#0077B5"><b>Leader Board</b></font></div>
+					<div class="well col-md-4" align="center">
+						<div align="center"><font size="5" color="#0077B5"><b>Leader Board</b></font><hr></div>
 						<table>
 							<thead>
 								<tr>
 									<th style="width: 25px"><div id="rank">#</div></th>
 									<th style="width: 125px"><div id="name">Name</div></th>
-									<th style="width: 75px"><div id="score">Score</div></th>					
+									<th style="width: 75px"><div id="score">Score</div></th>				
 								</tr>
 							</thead>
 							<tbody id="leaderBoard">
 							</tbody>
 						</table>										
-						</div>
 					</div>
 				</div>
-				<script type="text/javascript" src="js/hangman.js"></script>
-				<script type="text/javascript" src="js/append.js"></script>
-
-			</body>
-			</html>
+			</div>
+			<script type="text/javascript" src="js/hangman.js"></script>
+			<script type="text/javascript" src="js/append.js"></script>
+		</body>
+		</html>
