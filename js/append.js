@@ -1,3 +1,5 @@
+// dinhnluong@gmail.com 08.31.2018
+
 function appendButtons() {
 	var buttonsHTML = "";
 	jQuery('#Characters').html('');
