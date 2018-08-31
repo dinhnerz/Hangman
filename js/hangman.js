@@ -60,7 +60,7 @@ $(document).ready(function() {
 		$.ajax({ 
 			type: "GET",
 			dataType: "text",
-			url: "https://cors-anywhere.herokuapp.com/http://app.linkedin-reach.io/words?difficulty=" + diffLevel + "&minLength=" + startLength + "&maxLength=" + startMaxLength + "&start=" + start + "&count=1",
+			url: "http://app.linkedin-reach.io/words?difficulty=" + diffLevel + "&minLength=" + startLength + "&maxLength=" + startMaxLength + "&start=" + start + "&count=1",
 			success: function(data){
 				if (data == "" && getWordTries <= 3) {
 					getWordTries++;
@@ -68,8 +68,6 @@ $(document).ready(function() {
 				} else if (data == "" && getWordTries > 3) {
 					alert("Unable to retrieve word. Please try again.");
 				} else {
-					jQuery('#API').html('');
-					$("#API").append(data);
 					startGame(data);
 				}
 			}
