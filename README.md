@@ -21,7 +21,7 @@ Player will win the game if can guess all characters in the secret word before 6
 
 Applying SOLID principles where possible. I wrote the game to use single responsibility functions. Once the New Game button is clicked, it sets difficulty parameters (difficulty, minLength, maxLength, and start) based on the difficulty selection.
 
-Using these parameters, the game invoke LinkedIn's Word REST API to pull words but unforunately I faced the cross-domain policy issue and could not be processed and thus I had to use the CORS Chrome extension to get around this issue (Allow-Control-Allow-Origin). 
+Using these parameters, the game invoke LinkedIn's Word REST API to pull words but unfortunately I faced the cross-domain policy issue and could not be processed and thus I had to use the CORS Chrome extension to get around this issue (Allow-Control-Allow-Origin). 
 
 Word is casted into an Array and a Blank Underscore Array is created to display in the UI. Event Listeners are created for each Character button and is appended to the HTML page. If the Player push a Character button, the button is cross reference with the Word Array to check if the Character exist in the word Array and button is then disabled. 
 
@@ -33,7 +33,7 @@ Hint mode works by filtering through all 26 Characters and determines if a Chara
 
 ## Extensions
 
-- Difficulty Levels (easy, medium, hard). Difficulty levels is implmented using API parameters; difficulty, minLength, and maxLength. Lower parameter settings for easier modes, etc.
+- Difficulty Levels (easy, medium, hard). Difficulty levels is implemented by using API parameters; difficulty, minLength, and maxLength. Lower parameter settings for easier modes, etc.
 - Leader Board (top 10 scores). Leader board data is stored in the backend and displayed in the UI (cache parse to JSON).
 - Hint (disable 8 characters for easy mode, 4 characters for medium mode, not available for hard mode). Hint mode randomizes the characters to be disabled that are not in the word result array or already guessed.
 - Hangman Diagram. Uses a combination of 7 images and progress as the Player guess incorrectly.
@@ -45,3 +45,8 @@ Hint mode works by filtering through all 26 Characters and determines if a Chara
 - [Bootstrap](https://getbootstrap.com/)
 - [jQuery](https://jquery.com/)
 
+## Author
+
+- Dinh Luong
+- Email: dinhnluong@gmail.com
+- Publish Date: August 31, 2018
