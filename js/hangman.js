@@ -17,6 +17,7 @@ const chars = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
 
 $(document).ready(function() {
 
+	pullLeaderBoard();
 	appendButtons();
 
 	$("#Start").click(function(){
@@ -49,7 +50,8 @@ $(document).ready(function() {
 		   	console.log('Username is: ' + userName);
 			// get LinkedIn API
 
-			getWord();	
+
+			getWord();
 	});
 
 	function getWord() {
@@ -100,7 +102,6 @@ $(document).ready(function() {
 		jQuery('#word').html("<h2><b>" + wordHTML + "</b></h2>");
 
 		listenForChars();
-		//listenForKeys();
 
 	}
 
@@ -202,50 +203,47 @@ $(document).ready(function() {
 
 	function keepScore(userName, score) {
 
-		var names = [{"Name": "Dinh", "Rank": "1", "Score": "3500"},
-					 {"Name": "Dinh", "Rank": "2", "Score": "2500"},
-					 {"Name": "Dinh", "Rank": "3", "Score": "2000"}];
+		// var names = [{"Name": "Dinh", "Score": 200},
+		// 			 {"Name": "Dinh", "Score": 100}];
 
-		localStorage.setItem("names", JSON.stringify(names));
+		// localStorage.setItem("names", JSON.stringify(names));
 
 		var storedNames = JSON.parse(localStorage.getItem("names"));
 
 		console.log(storedNames);
 
-		// var leaderBoardRank = JSON.parse(localStorage["userRank"]);
-		// var leaderBoardScore = JSON.parse(localStorage["userScore"]);
-		// var leaderBoardName = JSON.parse(localStorage["userName"]);
+		storedNames.push({"Name": userName, "Score": score});
 
-		// console.log(leaderBoardRank);
-		// console.log(leaderBoardName);
-		// console.log(leaderBoardScore);
+		console.log(storedNames);
 
-		// if (leaderBoardRank == null && score > 0) {
+		var top10 = storedNames.sort(function(a, b) { return a.Score < b.Score ? 1 : -1; }).slice(0, 10);
 
-		// 	userRank = [1,2,3,4,5,6,7,8,9,10];
-		// 	userScore = [score,0,0,0,0,0,0,0,0,0];
-		// 	userName = [userName, "Name", "Name", "Name", "Name", "Name", "Name", "Name", "Name", "Name"];
+		localStorage.setItem("names", JSON.stringify(top10));
 
-		// 	localStorage.setItem('userRank', JSON.stringify(userRank));
-		// 	localStorage.setItem('userScore', JSON.stringify(userScore));
-		// 	localStorage.setItem('userName', JSON.stringify(userName));
+		appendLeaderBoard(top10);
 
-		// } else if (score > 0) {
-		// 	for (var i = 0; i < leaderBoardScore.length; i++) {
-		// 		if (leaderBoardScore[i] > score && leaderBoardScore[i+1] < score) {
-		// 			console.log("Update for this position: " + (i+1));
-		// 			leaderBoardScore[i+1] = score;
-		// 			leaderBoardName[i+1] = userName;
-		// 		} else if (leaderBoardScore[0] < score) {
-		// 			leaderBoardScore[0] = score;
-		// 			leaderBoardName[0] = userName;
-		// 		} 
-		// 		localStorage.setItem('userRank', JSON.stringify(leaderBoardRank));
-		// 		localStorage.setItem('userScore', JSON.stringify(leaderBoardScore));
-		// 		localStorage.setItem('userName', JSON.stringify(leaderBoardName));
-		// 	}
-		// }
 		
+	}
+
+	function pullLeaderBoard() {
+		var storedNames = JSON.parse(localStorage.getItem("names"));
+		var top10 = storedNames.sort(function(a, b) { return a.Score < b.Score ? 1 : -1; }).slice(0, 10);
+		appendLeaderBoard(top10);
+	}
+
+	function appendLeaderBoard(top10) {
+
+		var leaderBoard = "";
+
+		for (var i = 0; i < top10.length; i++) {
+			leaderBoard += "<tr><td align=\"left\">" + (i+1) + "</td>";
+			leaderBoard += "<td align=\"left\">" + top10[i].Name + "</td>";
+			leaderBoard += "<td align=\"left\">" + top10[i].Score + "</td><tr>";
+		}
+
+		jQuery('#leaderBoard').html("");
+		jQuery('#leaderBoard').html(leaderBoard);
+
 	}
 
 });
