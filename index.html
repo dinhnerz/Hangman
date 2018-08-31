@@ -7,16 +7,41 @@
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
+
 		<body>
+
+
+			<nav class="navbar-fixed-top navbar navbar-inverse">
+				<div class = "col-md-8 col-md-offset-2" align="center">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <div class="navbar-Hangman">LinkedIn Coding Challenge</div>
+			    </div>
+					<div class="nav navbar-nav" align="center"><font color="white">
+						<b>Difficulty Level: </b>
+						<form>
+							<label class="radio-inline"><input type="radio" id="diffEasy" name="diffLevel" checked>Easy</label>
+							<label class="radio-inline"><input type="radio" id="diffMedium" name="diffLevel">Medium</label>
+							<label class="radio-inline"><input type="radio" id="diffHard" name="diffLevel">Hard</label>
+						</form></font>
+					</div>
+			    <form class="navbar-form navbar-left">
+			      <div class="form-group">
+			        <input class="form-control" type="text" id="userName" maxlength="10" placeholder="Name">
+			      </div>
+			      <button type="button" class="btn btn-success " id="Start">New Game</button>
+			    </form>
+			  </div>
+			  		</div>
+			</nav>
 			<div id="main-outer">
-				<h1 align='center'><font color="#0077B5"><b>LinkedIn Coding Challenge</b></font></h1>
 				<!-- Main DIV -->
-				<div class="well message col-md-8 col-md-offset-2">
+				<div class="col-md-9 col-md-offset-2">
 					<!-- Main Left Column -->
-					<div class="col-md-9">
+					<div class="well col-md-8">
 						<!-- Title DIV -->
-						<div class="Title col-md-12" align="center"><h2><font color="#0077B5"><b>Hangman 2018</b></font></h2></div>
-						<div class="col-md-12" align="center" id="message"></div>
+						<div class="Title col-md-12" align="center"><h2><font color="#0077B5"><b>Hangman</b></font></h2></div>
+						<div class="col-md-12" align="center" id="message" style="padding: 5px;"><b>LinkedIn Coding Challenge</b></div>
 						<!-- Hangman IMG DIV -->
 						<div class="col-md-7" align="center">
 							<div class="col-md-12" align="center" id="imgHangman">
@@ -33,9 +58,9 @@
 						<div class="IMG col-md-5" align="center">
 							<div class="col-md-12" align="center" id="Characters">
 								</div>
-								<!-- <div class="col-md-12" align="center">
+								<div class="col-md-12" align="center">
 									<button type="button" id="hint" class="btn btn-info ">hint</button>
-								</div> -->
+								</div>
 						</div>
 						<div class="col-md-12" align="left">
 							<br>
@@ -43,7 +68,7 @@
 						</div>
 					</div> <!-- Main Left Column ends -->
 					<!-- Main Right Column -->
-					<div class="col-md-3">
+					<div class="well col-md-4">
 						<div align="center"><font size="5" color="#0077B5"><b>Leader Board</b></font></div>
 						<table>
 							<thead>
@@ -57,27 +82,10 @@
 							</tbody>
 						</table>										
 						</div>
-						<div class="col-md-12">
-						<!-- Difficulity DIV Size 9 -->
-						<div class="col-md-5" align="center">
-							<b>Difficulty Level: </b>
-							<form>
-								<label class="radio-inline"><input type="radio" id="diffEasy" name="diffLevel" checked>Easy</label>
-								<label class="radio-inline"><input type="radio" id="diffMedium" name="diffLevel">Medium</label>
-								<label class="radio-inline"><input type="radio" id="diffHard" name="diffLevel">Hard</label>
-							</form>
-						</div>
-						<div class="col-md-4">
-							 Name: <input type="text" name="username" id="userName">
-						</div>
-						<!-- Start DIV Size 3 -->
-						<div class="col-md-3" align="center">
-							<button type="button" class="btn btn-primary" id="Start">New Game</button>
-						</div>
-					</div>
 					</div>
 				</div>
 				<script type="text/javascript" src="js/hangman.js"></script>
-				<script type="text/javascript" src="js/appendButtons.js"></script>
+				<script type="text/javascript" src="js/append.js"></script>
+
 			</body>
 			</html>
