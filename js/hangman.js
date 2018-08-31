@@ -219,8 +219,12 @@ $(document).ready(function() {
 
 	function pullLeaderBoard() {
 		var storedNames = JSON.parse(localStorage.getItem("topScore"));
-		var top10 = storedNames.sort(function(a, b) { return a.Score < b.Score ? 1 : -1; }).slice(0, 10);
-		appendLeaderBoard(top10);
+		if (storedNames == null) {
+			//write code for null data
+		} else {
+			var top10 = storedNames.sort(function(a, b) { return a.Score < b.Score ? 1 : -1; }).slice(0, 10);
+			appendLeaderBoard(top10);
+		}
 	}
 
 });
