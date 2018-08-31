@@ -60,7 +60,7 @@ $(document).ready(function() {
 		$.ajax({ 
 			type: "GET",
 			dataType: "text",
-			url: "http://app.linkedin-reach.io/words?difficulty=" + diffLevel + "&minLength=" + startLength + "&maxLength=" + startMaxLength + "&start=" + start + "&count=1",
+			url: "https://app.linkedin-reach.io/words?difficulty=" + diffLevel + "&minLength=" + startLength + "&maxLength=" + startMaxLength + "&start=" + start + "&count=1",
 			success: function(data){
 				if (data == "" && getWordTries <= 3) {
 					getWordTries++;
